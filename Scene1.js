@@ -7,12 +7,10 @@ class Scene1 extends Phaser.Scene
 
   preload()
   {
-    this.load.spritesheet("trex", "assets/everything.png",
+    this.load.spritesheet("trex", "assets/trex.png",
     {
-      frameWidth: 32,
-      frameHeight: 32,
-      startFrame: 50,
-      endFrame: 200
+      frameWidth: 88,
+      frameHeight: 94,
     });
 
     this.load.spritesheet("shipI", "assets/shipI.png",
@@ -26,8 +24,22 @@ class Scene1 extends Phaser.Scene
   {
     //this.add.text(20, 20, "Loading game...");
 
-    this.trex = this.add.sprite(config.width/2 - 50, config.height/2, "trex");
+    this.trex = this.add.sprite(config.width/2 - 50, config.height/2, "trex").setScale(0.5);
 
-    this.ship1 = this.add.sprite(config.width/2 - 50, config.height/2 + 50, "shipI");
+    this.ship1 = this.add.sprite(50, 50, "shipI");
+
+    this.anims.create(
+      {
+        key: "trexRun",
+        frames: this.anims.generateFrameNumbers("trex",
+        {
+          start: 2,
+          end: 3
+        }),
+        frameRate: 10,
+        repeat: -1
+      });
+
+    this.trex.play("trexRun");
   }
 }
