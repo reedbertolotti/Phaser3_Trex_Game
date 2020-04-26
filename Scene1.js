@@ -9,7 +9,7 @@ class Scene1 extends Phaser.Scene
   {
     this.load.spritesheet("cactiSm", "assets/smallObstacles.png",
     {
-      frameWidth: 102,
+      frameWidth: 68,
       frameHeight: 70
     });
 
@@ -17,17 +17,19 @@ class Scene1 extends Phaser.Scene
 
     this.load.image("ground", "assets/platform.png");
 
+
     this.load.spritesheet("trexRun", "assets/runBest.png",
     {
       frameWidth: 88,
       frameHeight: 94
     });
 
-    this.load.spritesheet("trexDuck", "assets/duckBest4-19.png",
+    this.load.spritesheet("trexDuck", "assets/duckAttempt7.png",
     {
-      frameWidth: 88,
-      frameHeight: 40
+      frameWidth: 118,
+      frameHeight: 60
     });
+
 
     this.load.spritesheet("shipI", "assets/shipI.png",
     {
@@ -45,14 +47,14 @@ class Scene1 extends Phaser.Scene
     this.smCacti.setOrigin(0, 0);
     this.smCacti.setFrame(1);
 
-    this.ground = this.add.image(0, config.height - 50, "ground");
-    this.ground.setOrigin(0, 0).setScale(2);
+    this.ground = this.physics.add.staticImage(0, config.height - 50, "ground");
+    this.ground.setOrigin(0, 0).setScale(2).refreshBody();
 
-    this.trexR = this.physics.add.sprite(config.width/2-44, config.height-50-94*0.9+5, "trexRun").setScale(0.9);
-    this.trexR.setOrigin(0, 0);
-
-    // this.trexD = this.add.sprite(config.width/2 - 50, config.height-50-40, "trexDuck").setScale(1);
-    // this.trexD.setOrigin(0, 0);
+    this.runX = config.width/2;
+    this.runY = config.height - 50 - 47;
+    this.duckX = this.runX + 13;
+    this.duckY = this.runY + 18;
+    this.player = this.physics.add.sprite(this.runX, this.runY, "trexRun");
 
     this.ship1 = this.add.sprite(50, 50, "shipI");
 
@@ -80,44 +82,54 @@ class Scene1 extends Phaser.Scene
       repeat: -1
     });
 
-    this.trexR.play("run");
-    //this.trexD.play("duck");
+    this.player.play("run");
 
     this.cursors = this.input.keyboard.createCursorKeys();
 
 
 
     this.obstacles = this.physics.add.group();
-    this.physics.add.overlap(this.trexR, this.obstacles, this.gameOver, null, this);
+    //this.obstacles.setCollideWorldBounds(true);
+    this.physics.add.collider(this.player, this.ground);
+    this.physics.add.collider(this.obstacles, this.ground);
+    this.physics.add.overlap(this.player, this.obstacles, this.gameOver, null, this);
 
     this.obstacleTimer = 0;
   }
 
   update()
   {
-    if (this.cursors.down.isDown)
+    if (this.cursors.down.isDown && this.player.body.touching.down)
     {
-      this.trexR.play("duck", true);
-      if (this.trexR.y != (config.height-50-40))
+      this.player.play("duck", true);
+      if (this.player.y != this.duckY)
       {
-        this.trexR.y = config.height-50-40;
-        this.trexR.setScale(1);
+        console.log("doing");
+        this.player.y = this.duckY;
+        this.player.x = this.duckX;
+        this.player.setSize(118, 60);
+        this.player.setOffset(-14, 16);
       }
     }
-    else
+    else if (this.cursors.space.isDown && this.player.body.touching.down)
     {
-      this.trexR.play("run", true);
-      if (this.trexR.y != (config.height-50-94*0.9+5))
+      this.player.setVelocityY(-800);
+      this.player.setFrame(0);
+      this.player.anims.stop();
+    }
+    else if (this.player.body.touching.down)
+    {
+      this.player.play("run", true);
+      if (this.player.y != (this.runY))
       {
-        this.trexR.y = config.height-50-94*0.9+5;
-        this.trexR.setScale(0.9);
+        this.player.y = this.runY;
+        this.player.x = this.runX;
+        this.player.setSize(88, 94);
       }
     }
-
-
 
     //this.moveObstacles();
-    this.updateObstacles();
+    //this.updateObstacles();
   }
 
   updateObstacles()
@@ -130,6 +142,7 @@ class Scene1 extends Phaser.Scene
       console.log("in");
       let obs = new GroundObstacle(this);
 
+      Phaser.Actions.PlaceOnRectangle(obs, new Phaser.Geom.Rectangle(84, 84, 616, 416));
       this.obstacleTimer = 0;
     }
 
@@ -140,6 +153,7 @@ class Scene1 extends Phaser.Scene
   gameOver()
   {
     console.log("game over");
+    this.scene.pause();
   }
 
   moveObstacles()
@@ -147,5 +161,10 @@ class Scene1 extends Phaser.Scene
     this.smCacti.x -= 2;
     if (this.smCacti.x + this.smCacti.width < 0)
       this.smCacti.x = config.width;
+  }
+
+  setDefaultPosition(player)
+  {
+
   }
 }
