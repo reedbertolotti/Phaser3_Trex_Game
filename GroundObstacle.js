@@ -10,7 +10,7 @@ class GroundObstacle extends Phaser.GameObjects.Sprite
     scene.obstacles.add(this);
 
     scene.physics.world.enableBody(this);
-    this.body.setVelocityX(-75);
+    this.body.setVelocityX(-400);
   }
 
   update()
