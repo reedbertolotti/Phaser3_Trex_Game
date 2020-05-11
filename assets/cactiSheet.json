@@ -1,0 +1,135 @@
+{
+	"frames": {
+		"cactiBigOne.png": {
+			"frame": {
+				"x": 10,
+				"y": 10,
+				"w": 46,
+				"h": 92
+			},
+			"rotated": false,
+			"trimmed": false,
+			"spriteSourceSize": {
+				"x": 0,
+				"y": 0,
+				"w": 46,
+				"h": 92
+			},
+			"sourceSize": {
+				"w": 46,
+				"h": 92
+			}
+		},
+		"cactiBigThree.png": {
+			"frame": {
+				"x": 10,
+				"y": 122,
+				"w": 146,
+				"h": 94
+			},
+			"rotated": false,
+			"trimmed": false,
+			"spriteSourceSize": {
+				"x": 0,
+				"y": 0,
+				"w": 146,
+				"h": 94
+			},
+			"sourceSize": {
+				"w": 146,
+				"h": 94
+			}
+		},
+		"cactiBigTwo.png": {
+			"frame": {
+				"x": 76,
+				"y": 10,
+				"w": 96,
+				"h": 92
+			},
+			"rotated": false,
+			"trimmed": false,
+			"spriteSourceSize": {
+				"x": 0,
+				"y": 0,
+				"w": 96,
+				"h": 92
+			},
+			"sourceSize": {
+				"w": 96,
+				"h": 92
+			}
+		},
+		"cactiSmallOne.png": {
+			"frame": {
+				"x": 183,
+				"y": 1,
+				"w": 30,
+				"h": 66
+			},
+			"rotated": false,
+			"trimmed": false,
+			"spriteSourceSize": {
+				"x": 0,
+				"y": 0,
+				"w": 30,
+				"h": 66
+			},
+			"sourceSize": {
+				"w": 30,
+				"h": 66
+			}
+		},
+		"cactiSmallThree.png": {
+			"frame": {
+				"x": 215,
+				"y": 1,
+				"w": 98,
+				"h": 66
+			},
+			"rotated": false,
+			"trimmed": false,
+			"spriteSourceSize": {
+				"x": 0,
+				"y": 0,
+				"w": 98,
+				"h": 66
+			},
+			"sourceSize": {
+				"w": 98,
+				"h": 66
+			}
+		},
+		"cactiSmallTwo.png": {
+			"frame": {
+				"x": 183,
+				"y": 69,
+				"w": 64,
+				"h": 66
+			},
+			"rotated": false,
+			"trimmed": false,
+			"spriteSourceSize": {
+				"x": 0,
+				"y": 0,
+				"w": 64,
+				"h": 66
+			},
+			"sourceSize": {
+				"w": 64,
+				"h": 66
+			}
+		}
+	},
+	"meta": {
+		"app": "http://www.codeandweb.com/texturepacker",
+		"version": "1.0",
+		"image": "cactiSheet.png",
+		"format": "RGBA8888",
+		"size": {
+			"w": 314,
+			"h": 226
+		},
+		"scale": "1"
+	}
+}
