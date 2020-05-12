@@ -1,55 +1,8 @@
-class Scene1 extends Phaser.Scene
+class Scene2 extends Phaser.Scene
 {
   constructor()
   {
-    super("bootGame");
-  }
-
-  preload()
-  {
-    this.load.bitmapFont("pixelFont", "assets/font.png", "assets/font.xml");
-
-    this.load.spritesheet("cactiSm", "assets/smallObstacles.png",
-    {
-      frameWidth: 68,
-      frameHeight: 70
-    });
-
-    this.load.image("bkg", "assets/background2.png");
-
-    this.load.image("cactiBg", "assets/bigObstacles.png");
-
-    this.load.image("ground", "assets/platform.png");
-
-
-    this.load.spritesheet("trexRun", "assets/trexRun.png",
-    {
-      frameWidth: 88,
-      frameHeight: 94
-    });
-
-    this.load.spritesheet("trexDuck", "assets/trexDuck.png",
-    {
-      frameWidth: 118,
-      frameHeight: 60
-    });
-
-    this.load.spritesheet("bird", "assets/bird.png",
-    {
-      frameWidth: 92,
-      frameHeight: 80
-    });
-
-
-    this.load.spritesheet("shipI", "assets/shipI.png",
-    {
-      frameWidth: 16,
-      frameHeight: 16,
-    });
-
-
-    this.load.atlas('sprsht', 'assets/spritesheet.png', 'assets/spritesheet.json');
-    this.load.atlas('cSheet', 'assets/cactiSheet.png', 'assets/cactiSheet.json');
+    super("playGame");
   }
 
   create()
@@ -143,10 +96,8 @@ class Scene1 extends Phaser.Scene
     this.acceptNewGame.on('down', () => {if(this.over){this.resetGame()}});
 
 
-    this.highScore = 0;
 
-    //this.physics.add.collider(runner, this.ground);
-    //this.physics.add.collider(smC1, this.ground);
+
 
     this.obstacles = this.physics.add.group();
 
@@ -156,10 +107,10 @@ class Scene1 extends Phaser.Scene
 
     this.obstacleTimer = 0;
     this.score = 0;
+    this.highScore = 0;
     this.tenFrames = 0;
     this.jumpTimer = 0;
-
-    this.scoreLabel = this.add.bitmapText(10, 5, "pixelFont", "SCORE ", 16);
+    this.gameSpeed = 600;
 
     let clickCount = 0;
     this.scoreText = this.add.text(10, 30, 'score: 0', { fontSize: '16px', fill: '#000' });
@@ -203,9 +154,9 @@ class Scene1 extends Phaser.Scene
     {
       this.tenFrames = 0;
       this.score += 1;
-      let scoreFormatted = this.zeroPad(this.score, 7);
+      this.gameSpeed += 0.5;
 
-      this.scoreLabel.text = "SCORE " + scoreFormatted;
+      let scoreFormatted = this.zeroPad(this.score, 7);
       this.scoreText.setText('Score: ' + scoreFormatted);
     }
     else
@@ -232,8 +183,6 @@ class Scene1 extends Phaser.Scene
     {
       if (this.player.body.onFloor()) // begin jump
       {
-        // new GroundObstacle(this);
-        // console.log(config.height);
         this.jumpTimer = this.time.now;
         this.player.setVelocityY(-800);
         this.player.play("run");
@@ -251,9 +200,9 @@ class Scene1 extends Phaser.Scene
       this.player.play("run", true);
     }
 
-    this.cacti.tilePositionX += 0.5;
+    this.cacti.tilePositionX += this.gameSpeed/100; // move background
 
-    this.updateObstacles();
+    this.updateObstacles(); // move and add obstacles
   }
 
   updateObstacles()
@@ -305,6 +254,7 @@ class Scene1 extends Phaser.Scene
   {
     console.log("resetting game");
     this.score = 0;
+    this.gameSpeed = 600;
     this.over = false;
     this.player.clearTint();
 
