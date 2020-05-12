@@ -78,7 +78,7 @@ class Scene1 extends Phaser.Scene
     this.bird1 = this.add.sprite(config.width-200, config.height/2, "bird");
 
     this.ground = this.physics.add.staticImage(0, config.height - 50, "ground");
-    this.ground.setOrigin(0, 0).setScale(3).refreshBody();
+    this.ground.setOrigin(0, 0).setScale(3.5).refreshBody();
 
     this.background = this.add.image(0, config.height - 75, "ground");
     this.background.setOrigin(0, 0).setScale(3).setAlpha(0.3);
@@ -139,6 +139,12 @@ class Scene1 extends Phaser.Scene
     this.cursors = this.input.keyboard.createCursorKeys();
     this.cursors.down.on('up', () => this.stopDucking());
 
+    this.acceptNewGame = this.input.keyboard.addKey('ENTER');
+    this.acceptNewGame.on('down', () => {if(this.over){this.resetGame()}});
+
+
+    this.highScore = 0;
+
     //this.physics.add.collider(runner, this.ground);
     //this.physics.add.collider(smC1, this.ground);
 
@@ -162,8 +168,25 @@ class Scene1 extends Phaser.Scene
     this.clickCountText = this.add.text(100, 200, '');
     this.updateClickCountText(clickCount);
 
-    //const rect = this.add.rectangle(400, 300, 100, 100, 0xff0000, 1)
-    //this.physics.TILE_BIAS = 16000;
+    // game over stuff
+    let rect = this.add.rectangle(config.width/2, config.height/2, 300, 200, 0xff0000, 0.2)
+
+    let gameOverMsg = this.add.text(config.width/2, config.height/2 - 50, "Game Over", { fontSize: '32px', fill: '#000' })
+    gameOverMsg.setOrigin(0.5, 0.5);
+
+    this.yourScore = this.add.text(config.width/2, config.height/2, "Your Score: " + this.score, { fontSize: '32px', fill: '#000' })
+    this.yourScore.setOrigin(0.5, 0.5)
+
+    this.topScoreLabel = this.add.text(config.width/2, config.height/2 + 40, "Top Score: " + this.highScore, { fontSize: '16px', fill: '#000' })
+    this.topScoreLabel.setOrigin(0.5, 0.5)
+
+    let playAgain = this.add.text(config.width/2, config.height/2 + 80, "press ENTER to play again", { fontSize: '16px', fill: '#000' })
+    playAgain.setOrigin(0.5, 0.5)
+
+    this.gameOverText = this.add.group().addMultiple([rect, gameOverMsg, this.yourScore, this.topScoreLabel, playAgain]);
+    this.gameOverText.toggleVisible();
+
+    this.over = false;
   }
 
   updateClickCountText(clickCount)
@@ -173,11 +196,14 @@ class Scene1 extends Phaser.Scene
 
   update()
   {
+    if (this.over)
+      return;
+
     if (this.tenFrames == 10)
     {
       this.tenFrames = 0;
       this.score += 1;
-      let scoreFormatted = this.zeroPad(this.score, 6);
+      let scoreFormatted = this.zeroPad(this.score, 7);
 
       this.scoreLabel.text = "SCORE " + scoreFormatted;
       this.scoreText.setText('Score: ' + scoreFormatted);
@@ -206,6 +232,8 @@ class Scene1 extends Phaser.Scene
     {
       if (this.player.body.onFloor()) // begin jump
       {
+        // new GroundObstacle(this);
+        // console.log(config.height);
         this.jumpTimer = this.time.now;
         this.player.setVelocityY(-800);
         this.player.play("run");
@@ -213,7 +241,7 @@ class Scene1 extends Phaser.Scene
         this.setPhysicalDefault(this.player);
         this.player.anims.stop();
       }
-      else if (this.jumpTimer != 0 && (this.time.now - this.jumpTimer < 150)) // continue jump true
+      else if (this.jumpTimer != 0 && (this.time.now - this.jumpTimer < 150)) // if true, continue jump
       {
         this.player.setVelocityY(-800);
       }
@@ -235,12 +263,16 @@ class Scene1 extends Phaser.Scene
     // add new obs
     if (this.obstacleTimer > 100)
     {
-      console.log("in update obs");
+      //console.log("in update obs");
       if (Math.random() > 0.5)
+      {
+        console.log(config.height);
         new GroundObstacle(this);
+      }
       else
+      {
         new SkyObstacle(this);
-
+      }
       this.obstacleTimer = 0;
     }
 
@@ -251,11 +283,42 @@ class Scene1 extends Phaser.Scene
   gameOver()
   {
     console.log("game over");
-    this.scene.pause();
+    this.over = true;
+
+    this.player.setTint(0xff0000);
+
+    if (this.score > this.highScore)
+      this.highScore = this.score;
+    //this.scene.pause();
 
     // tint player
     // transparent rectangle in middle of screen
     // text in rectangle: "Game Over" and "your score: score" and "press enter to play again"
+    this.physics.pause();
+    this.anims.pauseAll();
+    this.yourScore.setText("Your Score: " + this.score);
+    this.topScoreLabel.setText("Top Score: " + this.highScore);
+    this.gameOverText.toggleVisible();
+  }
+
+  resetGame()
+  {
+    console.log("resetting game");
+    this.score = 0;
+    this.over = false;
+    this.player.clearTint();
+
+    this.player.x = this.playerX;
+    this.player.y = this.playerY;
+    this.setPhysicalDefault(this.player);
+    this.player.setVelocityY(0);
+    this.player.play("run");
+
+    this.obstacles.clear(true, true);
+
+    this.physics.resume();
+    this.anims.resumeAll();
+    this.gameOverText.toggleVisible();
   }
 
   moveObstacles()
@@ -278,7 +341,7 @@ class Scene1 extends Phaser.Scene
 
   stopDucking()
   {
-    if (this.player.anims.getCurrentKey() == "duck")
+    if (!this.over && this.player.anims.getCurrentKey() == "duck")
     {
       this.player.play("run");
       this.setPhysicalDefault(this.player);
