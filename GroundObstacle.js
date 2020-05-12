@@ -2,6 +2,7 @@ class GroundObstacle extends Phaser.GameObjects.Sprite
 {
   constructor(scene)
   {
+    // test
     let cactiSizes = ["Big", "Small"];
     let cactiNumbers = ["One", "Two", "Three"];
 
