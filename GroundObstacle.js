@@ -2,7 +2,6 @@ class GroundObstacle extends Phaser.GameObjects.Sprite
 {
   constructor(scene)
   {
-    // test
     let cactiSizes = ["Big", "Small"];
     let cactiNumbers = ["One", "Two", "Three"];
 
@@ -11,7 +10,7 @@ class GroundObstacle extends Phaser.GameObjects.Sprite
 
     let cactiFrame = "cacti" + size + number + ".png";
 
-    super(scene, 1200+100, 350, 'cSheet', cactiFrame);
+    super(scene, config.width+100, config.height-50, 'cSheet', cactiFrame);
 
     scene.physics.world.enableBody(this);
     scene.add.existing(this);
@@ -20,7 +19,7 @@ class GroundObstacle extends Phaser.GameObjects.Sprite
     this.body.setSize(this.width-(this.width/5), this.height-(this.height/10));
     this.body.setOffset(this.width/10, this.height/10);
 
-    this.body.setVelocityX(-600);
+    this.body.setVelocityX(-scene.gameSpeed);
   }
 
   update()
