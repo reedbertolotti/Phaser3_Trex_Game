@@ -2,7 +2,7 @@ class SkyObstacle extends Phaser.GameObjects.Sprite
 {
   constructor(scene)
   {
-    let heights = [config.height-50, config.height-110, config.height-170];
+    let heights = [config.height-50, config.height-100, config.height-150];
 
     let height = heights[Math.floor(Math.random() * heights.length)];
 
