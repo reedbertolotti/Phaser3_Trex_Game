@@ -2,9 +2,7 @@ class SkyObstacle extends Phaser.GameObjects.Sprite
 {
   constructor(scene)
   {
-    let heights = [config.height-50, config.height-100, config.height-150];
-
-    let height = heights[Math.floor(Math.random() * heights.length)];
+    let height = obsValues.skyObsHeights[Math.floor(Math.random() * obsValues.skyObsHeights.length)];
 
     super(scene, config.width+100, height, "bird");
     this.play("fly");
@@ -16,9 +14,7 @@ class SkyObstacle extends Phaser.GameObjects.Sprite
     this.body.setSize(60, 24);
     this.body.setOffset(20, 31);
 
-
     this.body.setAllowGravity(false);
-
 
     this.body.setVelocityX(-scene.gameSpeed);
   }
@@ -28,7 +24,6 @@ class SkyObstacle extends Phaser.GameObjects.Sprite
     if (this.x + this.width < 0)
     {
       this.destroy();
-      console.log("sky destroyed");
     }
   }
 }

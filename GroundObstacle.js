@@ -2,11 +2,8 @@ class GroundObstacle extends Phaser.GameObjects.Sprite
 {
   constructor(scene)
   {
-    let cactiSizes = ["Big", "Small"];
-    let cactiNumbers = ["One", "Two", "Three"];
-
-    let size = cactiSizes[Math.floor(Math.random() * cactiSizes.length)];
-    let number = cactiNumbers[Math.floor(Math.random() * cactiNumbers.length)];
+    let size = obsValues.cactiSizes[Math.floor(Math.random() * obsValues.cactiSizes.length)];
+    let number = obsValues.cactiNumbers[Math.floor(Math.random() * obsValues.cactiNumbers.length)];
 
     let cactiFrame = "cacti" + size + number + ".png";
 
@@ -27,7 +24,6 @@ class GroundObstacle extends Phaser.GameObjects.Sprite
     if (this.x + this.width < 0)
     {
       this.destroy();
-      console.log("destroyed");
     }
   }
 }

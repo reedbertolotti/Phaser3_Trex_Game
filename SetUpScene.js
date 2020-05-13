@@ -1,25 +1,16 @@
-class Scene1 extends Phaser.Scene
+class SetUpScene extends Phaser.Scene
 {
   constructor()
   {
-    console.log("CREATING SCENE 1");
     super("setUpGame");
   }
 
   preload()
   {
-    this.load.spritesheet("cactiSm", "assets/smallObstacles.png",
-    {
-      frameWidth: 68,
-      frameHeight: 70
-    });
+    this.load.atlas('cSheet', 'assets/cactiSheet.png', 'assets/cactiSheet.json');
 
-    this.load.image("bkg", "assets/background3.png");
-
-    this.load.image("cactiBg", "assets/bigObstacles.png");
-
+    this.load.image("bkgrndCacti", "assets/background3.png");
     this.load.image("ground", "assets/platform.png");
-
 
     this.load.spritesheet("trexRun", "assets/trexRun.png",
     {
@@ -38,28 +29,11 @@ class Scene1 extends Phaser.Scene
       frameWidth: 92,
       frameHeight: 80
     });
-
-
-    this.load.atlas('sprsht', 'assets/spritesheet.png', 'assets/spritesheet.json');
-    this.load.atlas('cSheet', 'assets/cactiSheet.png', 'assets/cactiSheet.json');
   }
 
   create()
   {
-    this.scene.start("titleMenu"); //this.scene.start("playGame");
-    this.num = 5;
-
-    this.anims.create(
-      {
-        key: "duck",
-        frames: this.anims.generateFrameNumbers("trexDuck",
-        {
-          start: 0,
-          end: 1
-        }),
-        frameRate: 10,
-        repeat: -1
-      });
+    this.scene.start("titleMenu"); // start FrontScene
 
     this.anims.create(
       {
@@ -72,6 +46,18 @@ class Scene1 extends Phaser.Scene
       frameRate: 10,
       repeat: -1
     });
+
+    this.anims.create(
+      {
+        key: "duck",
+        frames: this.anims.generateFrameNumbers("trexDuck",
+        {
+          start: 0,
+          end: 1
+        }),
+        frameRate: 10,
+        repeat: -1
+      });
 
     this.anims.create(
       {
