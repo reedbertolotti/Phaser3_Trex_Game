@@ -1,9 +1,9 @@
 let config =
 {
   width: 1200,
-  height: 400/*256*/,
-  backgroundColor: 0xaed6f1/*0x8B0000*/,
-  scene: [Scene1, Scene2],
+  height: 400,
+  backgroundColor: 0xaed6f1,
+  scene: [Scene1, Scene2, FrontScene],
   pixelArt: true,
   physics:
   {
