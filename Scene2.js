@@ -13,7 +13,7 @@ class Scene1 extends Phaser.Scene
       frameHeight: 70
     });
 
-    this.load.image("bkg", "assets/background2.png");
+    this.load.image("bkg", "assets/background3.png");
 
     this.load.image("cactiBg", "assets/bigObstacles.png");
 
@@ -39,13 +39,6 @@ class Scene1 extends Phaser.Scene
     });
 
 
-    this.load.spritesheet("shipI", "assets/shipI.png",
-    {
-      frameWidth: 16,
-      frameHeight: 16,
-    });
-
-
     this.load.atlas('sprsht', 'assets/spritesheet.png', 'assets/spritesheet.json');
     this.load.atlas('cSheet', 'assets/cactiSheet.png', 'assets/cactiSheet.json');
   }
@@ -53,5 +46,41 @@ class Scene1 extends Phaser.Scene
   create()
   {
     this.scene.start("playGame");
+
+    this.anims.create(
+      {
+        key: "duck",
+        frames: this.anims.generateFrameNumbers("trexDuck",
+        {
+          start: 0,
+          end: 1
+        }),
+        frameRate: 10,
+        repeat: -1
+      });
+
+    this.anims.create(
+      {
+        key: "run",
+        frames: this.anims.generateFrameNumbers("trexRun",
+      {
+        start: 2,
+        end: 3
+      }),
+      frameRate: 10,
+      repeat: -1
+    });
+
+    this.anims.create(
+      {
+        key: "fly",
+        frames: this.anims.generateFrameNumbers("bird",
+      {
+        start: 0,
+        end: 1
+      }),
+      frameRate: 5,
+      repeat: -1
+    });
   }
 }

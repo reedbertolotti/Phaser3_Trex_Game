@@ -14,21 +14,6 @@ class Scene2 extends Phaser.Scene
 
     // this.anims.create({ key: 'runner', frames: this.anims.generateFrameNames('sprsht', { prefix: 'RunRight', start: 1, end: 4, suffix:'.png', zeroPad: 2 }), repeat: -1 });
     // let runner = this.physics.add.sprite(200, 150, 'sprsht', 'RunRight02.png')//.play('runner');//.setSize(50, 50)
-    //this.add.text(20, 20, "Loading game...");
-
-    //let smC1 = this.physics.add.sprite(200, 150, 'cSheet', 'cactiBigOne.png')//.play('runner');//.setSize(50, 50)
-
-
-
-
-    // this.smCacti = this.add.sprite(150, 0, "cactiSm");
-    // this.smCacti.y = config.height-75;
-    // this.smCacti.setOrigin(0, 1);
-    // this.smCacti.setFrame(1);
-    // this.smCacti.setAlpha(0.1);
-    // this.smCacti.setScale(0.5);
-
-    this.bird1 = this.add.sprite(config.width-200, config.height/2, "bird");
 
     this.ground = this.physics.add.staticImage(0, config.height - 50, "ground");
     this.ground.setOrigin(0, 0).setScale(3.5).refreshBody();
@@ -44,48 +29,6 @@ class Scene2 extends Phaser.Scene
     this.player = this.physics.add.sprite(this.playerX, this.playerY, "trexRun");
     this.player.setOrigin(0, 1);
     this.setPhysicalDefault(this.player);
-
-
-    this.ship1 = this.add.sprite(50, 50, "shipI");
-
-    this.anims.create(
-      {
-        key: "duck",
-        frames: this.anims.generateFrameNumbers("trexDuck",
-        {
-          start: 0,
-          end: 1
-        }),
-        frameRate: 10,
-        repeat: -1
-      });
-
-    this.anims.create(
-      {
-        key: "run",
-        frames: this.anims.generateFrameNumbers("trexRun",
-      {
-        start: 2,
-        end: 3
-      }),
-      frameRate: 10,
-      repeat: -1
-    });
-
-    this.anims.create(
-      {
-        key: "fly",
-        frames: this.anims.generateFrameNumbers("bird",
-      {
-        start: 0,
-        end: 1
-      }),
-      frameRate: 5,
-      repeat: -1
-    });
-
-    this.bird1.play("fly");
-
     this.player.play("run");
 
 
@@ -112,12 +55,9 @@ class Scene2 extends Phaser.Scene
     this.jumpTimer = 0;
     this.gameSpeed = 600;
 
-    let clickCount = 0;
-    this.scoreText = this.add.text(10, 30, 'score: 0', { fontSize: '16px', fill: '#000' });
-    this.scoreText.setInteractive().on('pointerdown', () => this.updateClickCountText(++clickCount));
 
-    this.clickCountText = this.add.text(100, 200, '');
-    this.updateClickCountText(clickCount);
+    this.scoreText = this.add.text(10, 30, 'score: 0', { fontSize: '16px', fill: '#000' });
+
 
     // game over stuff
     let rect = this.add.rectangle(config.width/2, config.height/2, 300, 200, 0xff0000, 0.2)
@@ -140,10 +80,6 @@ class Scene2 extends Phaser.Scene
     this.over = false;
   }
 
-  updateClickCountText(clickCount)
-  {
-    this.clickCountText.setText(`Button has been clicked ${clickCount} times.`);
-  }
 
   update()
   {
@@ -154,7 +90,7 @@ class Scene2 extends Phaser.Scene
     {
       this.tenFrames = 0;
       this.score += 1;
-      this.gameSpeed += 0.5;
+      this.gameSpeed += 0.1;
 
       let scoreFormatted = this.zeroPad(this.score, 7);
       this.scoreText.setText('Score: ' + scoreFormatted);
@@ -183,6 +119,7 @@ class Scene2 extends Phaser.Scene
     {
       if (this.player.body.onFloor()) // begin jump
       {
+        //new SkyObstacle(this);
         this.jumpTimer = this.time.now;
         this.player.setVelocityY(-800);
         this.player.play("run");
@@ -215,18 +152,17 @@ class Scene2 extends Phaser.Scene
       //console.log("in update obs");
       if (Math.random() > 0.5)
       {
-        console.log(config.height);
         new GroundObstacle(this);
       }
       else
       {
         new SkyObstacle(this);
       }
+
       this.obstacleTimer = 0;
     }
 
-    // destroy obs if off screen
-    this.obstacles.children.each(ob => ob.update(), this);
+    this.obstacles.children.each(ob => ob.update(), this); // update all obstacles
   }
 
   gameOver()
