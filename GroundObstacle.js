@@ -1,3 +1,5 @@
+// class for ground obstacles (cacti)
+
 class GroundObstacle extends Phaser.GameObjects.Sprite
 {
   constructor(scene)

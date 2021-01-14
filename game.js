@@ -26,7 +26,7 @@ const obsValues =
 
 const playerConfig =
 {
-  defaultX:config.width/10,
+  defaultX: config.width/10,
   defaultY: config.height - 50,
   runXSize: 25,
   runYSize: 91,

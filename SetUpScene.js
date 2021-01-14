@@ -1,3 +1,5 @@
+// scene to load assets and create anims
+
 class SetUpScene extends Phaser.Scene
 {
   constructor()
@@ -35,6 +37,7 @@ class SetUpScene extends Phaser.Scene
   {
     this.scene.start("titleMenu"); // start FrontScene
 
+    // trex running animation
     this.anims.create(
       {
         key: "run",
@@ -47,6 +50,7 @@ class SetUpScene extends Phaser.Scene
       repeat: -1
     });
 
+    // trex ducking animation
     this.anims.create(
       {
         key: "duck",
@@ -59,6 +63,7 @@ class SetUpScene extends Phaser.Scene
         repeat: -1
       });
 
+    // bird flying animation
     this.anims.create(
       {
         key: "fly",

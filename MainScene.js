@@ -1,3 +1,5 @@
+// scene for playing the game
+
 class MainScene extends Phaser.Scene
 {
   constructor()
@@ -68,7 +70,7 @@ class MainScene extends Phaser.Scene
 
 
     // the displayed score
-    this.scoreText = this.add.text(config.width - 30, 30, 'score: 0', { fontSize: '18px', fill: '#000' });
+    this.scoreText = this.add.text(config.width - 30, 30, 'score: 0', {fontSize: '18px', fill: '#000'});
     this.scoreText.setOrigin(1, 0);
 
     // game over display window
