@@ -20,8 +20,8 @@ class MainScene extends Phaser.Scene
 
 
     // keyboard input
-    let returnToMeu = this.input.keyboard.addKey('BACKSPACE')
-    returnToMeu.on('up', () =>
+    let returnToMenu = this.input.keyboard.addKey('BACKSPACE')
+    returnToMenu.on('up', () =>
     {
       this.resetGame();
       this.scene.switch("titleMenu");

@@ -7,7 +7,7 @@ class GroundObstacle extends Phaser.GameObjects.Sprite
 
     let cactiFrame = "cacti" + size + number + ".png";
 
-    super(scene, config.width+100, config.height-50, 'cSheet', cactiFrame);
+    super(scene, config.width+100, config.height-50, 'cactiSheet', cactiFrame);
 
     scene.physics.world.enableBody(this);
     scene.add.existing(this);

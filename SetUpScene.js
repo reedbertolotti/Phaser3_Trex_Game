@@ -7,9 +7,9 @@ class SetUpScene extends Phaser.Scene
 
   preload()
   {
-    this.load.atlas('cSheet', 'assets/cactiSheet.png', 'assets/cactiSheet.json');
+    this.load.atlas('cactiSheet', 'assets/cactiSheet.png', 'assets/cactiSheet.json');
 
-    this.load.image("bkgrndCacti", "assets/background3.png");
+    this.load.image("bkgrndCacti", "assets/background.png");
     this.load.image("ground", "assets/platform.png");
 
     this.load.spritesheet("trexRun", "assets/trexRun.png",
