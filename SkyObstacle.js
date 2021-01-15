@@ -1,3 +1,5 @@
+// class for sky obstacles (birds)
+
 class SkyObstacle extends Phaser.GameObjects.Sprite
 {
   constructor(scene)

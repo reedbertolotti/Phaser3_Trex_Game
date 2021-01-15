@@ -1,3 +1,5 @@
+// scene for menu
+
 class FrontScene extends Phaser.Scene
 {
   constructor()
